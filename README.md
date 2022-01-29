@@ -53,7 +53,7 @@ if (y_pos - occlusion_margin + y_velocity * DELTA < surface) {
 5. The plane mesh size, camera size, and depth_cam_size uniform must be equal for accurate mapping.
 6. Assign the viewport as a ViewportTexture to the depth_map uniform.
 
-Depth mapping gets its own render layer, so be sure to include particle-occluding objects on that layer. You can also use the layer to hide invisible copies of transparent surfaces, enabling them to occlude particles too.
+Depth mapping gets its own render layer, so be sure to include particle-occluding objects on that layer. You can also use the layer to hide non-transparent copies of transparent surfaces, enabling them to occlude particles too.
 
 # License
 This project uses the [MIT License](https://github.com/Wolfe2x7/3D-particle-occlusion-collision-for-Godot-3/blob/main/LICENSE) with no copyright. The main body of each example shader is automatically converted from Godot Engine 3.4.2.stable's ParticlesMaterial.
