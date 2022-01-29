@@ -1,0 +1,409 @@
+[gd_scene load_steps=34 format=2]
+
+[ext_resource path="res://shaders/tennis_bounce.gdshader" type="Shader" id=1]
+[ext_resource path="res://shaders/fountain_splash.gdshader" type="Shader" id=2]
+[ext_resource path="res://shaders/depth_map.gdshader" type="Shader" id=3]
+[ext_resource path="res://meshes/fountain_ball.mesh" type="ArrayMesh" id=4]
+[ext_resource path="res://meshes/water.material" type="Material" id=5]
+[ext_resource path="res://meshes/rain_cottage.mesh" type="ArrayMesh" id=6]
+[ext_resource path="res://shaders/rain_occlusion.gdshader" type="Shader" id=7]
+[ext_resource path="res://move.gd" type="Script" id=8]
+[ext_resource path="res://meshes/tennis_launcher.mesh" type="ArrayMesh" id=9]
+
+[sub_resource type="ProceduralSky" id=33]
+sky_top_color = Color( 0.342, 0.7372, 0.95, 1 )
+sky_horizon_color = Color( 0.7154, 0.86093, 0.98, 1 )
+ground_bottom_color = Color( 0.1554, 0.21, 0.1918, 1 )
+ground_horizon_color = Color( 0.3696, 0.42, 0.4032, 1 )
+sun_latitude = 60.0
+
+[sub_resource type="Environment" id=34]
+background_mode = 2
+background_sky = SubResource( 33 )
+ambient_light_color = Color( 0.28, 0.310333, 0.35, 1 )
+ambient_light_sky_contribution = 0.25
+
+[sub_resource type="ViewportTexture" id=44]
+viewport_path = NodePath("TennisParticles/DepthMap")
+
+[sub_resource type="ShaderMaterial" id=41]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/direction = Vector3( 0, -1, 0 )
+shader_param/spread = 5.0
+shader_param/flatness = 0.0
+shader_param/initial_linear_velocity = 20.0
+shader_param/initial_angle = 0.0
+shader_param/angular_velocity = 0.0
+shader_param/orbit_velocity = 0.0
+shader_param/linear_accel = 0.0
+shader_param/radial_accel = 0.0
+shader_param/tangent_accel = 0.0
+shader_param/damping = 0.0
+shader_param/scale = 1.0
+shader_param/hue_variation = 0.0
+shader_param/anim_speed = 0.0
+shader_param/anim_offset = 0.0
+shader_param/initial_linear_velocity_random = 0.2
+shader_param/initial_angle_random = 0.0
+shader_param/angular_velocity_random = 0.0
+shader_param/orbit_velocity_random = 0.0
+shader_param/linear_accel_random = 0.0
+shader_param/radial_accel_random = 0.0
+shader_param/tangent_accel_random = 0.0
+shader_param/damping_random = 0.0
+shader_param/scale_random = 0.0
+shader_param/hue_variation_random = 0.0
+shader_param/anim_speed_random = 0.0
+shader_param/anim_offset_random = 0.0
+shader_param/lifetime_randomness = 0.0
+shader_param/emission_box_extents = Vector3( 8, 0, 8 )
+shader_param/color_value = Color( 1, 1, 1, 1 )
+shader_param/trail_divisor = 1
+shader_param/gravity = Vector3( 0, -9.8, 0 )
+shader_param/occlusion_margin = 0.04
+shader_param/depth_cam_size = 16.0
+shader_param/example_normal = Vector3( -0.342, 0.94, 0 )
+shader_param/depth_map = SubResource( 44 )
+
+[sub_resource type="SpatialMaterial" id=37]
+albedo_color = Color( 0.615686, 1, 0, 1 )
+metallic_specular = 1.0
+
+[sub_resource type="SphereMesh" id=36]
+material = SubResource( 37 )
+radius = 0.065
+height = 0.13
+radial_segments = 8
+rings = 4
+
+[sub_resource type="ShaderMaterial" id=42]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+
+[sub_resource type="PlaneMesh" id=43]
+resource_local_to_scene = true
+material = SubResource( 42 )
+size = Vector2( 16, 16 )
+
+[sub_resource type="SpatialMaterial" id=39]
+albedo_color = Color( 0, 0.25098, 0.25098, 1 )
+
+[sub_resource type="CubeMesh" id=38]
+material = SubResource( 39 )
+size = Vector3( 60, 2, 15 )
+
+[sub_resource type="ViewportTexture" id=50]
+viewport_path = NodePath("RainParticles/DepthMap")
+
+[sub_resource type="ShaderMaterial" id=47]
+resource_local_to_scene = true
+shader = ExtResource( 7 )
+shader_param/direction = Vector3( 0, -1, 0 )
+shader_param/spread = 4.0
+shader_param/flatness = 0.0
+shader_param/initial_linear_velocity = 10.0
+shader_param/initial_angle = 0.0
+shader_param/angular_velocity = 0.0
+shader_param/orbit_velocity = 0.0
+shader_param/linear_accel = 0.0
+shader_param/radial_accel = 0.0
+shader_param/tangent_accel = 0.0
+shader_param/damping = 0.0
+shader_param/scale = 1.0
+shader_param/hue_variation = 0.0
+shader_param/anim_speed = 0.0
+shader_param/anim_offset = 0.0
+shader_param/initial_linear_velocity_random = 0.0
+shader_param/initial_angle_random = 0.0
+shader_param/angular_velocity_random = 0.0
+shader_param/orbit_velocity_random = 0.0
+shader_param/linear_accel_random = 0.0
+shader_param/radial_accel_random = 0.0
+shader_param/tangent_accel_random = 0.0
+shader_param/damping_random = 0.0
+shader_param/scale_random = 0.0
+shader_param/hue_variation_random = 0.0
+shader_param/anim_speed_random = 0.0
+shader_param/anim_offset_random = 0.0
+shader_param/lifetime_randomness = 0.0
+shader_param/emission_box_extents = Vector3( 5, 0, 5 )
+shader_param/color_value = Color( 1, 1, 1, 1 )
+shader_param/trail_divisor = 1
+shader_param/gravity = Vector3( 0, -9.8, 0 )
+shader_param/occlusion_margin = 0.04
+shader_param/depth_cam_size = 10.0
+shader_param/depth_map = SubResource( 50 )
+
+[sub_resource type="QuadMesh" id=49]
+material = ExtResource( 5 )
+size = Vector2( 0.02, 0.5 )
+
+[sub_resource type="ShaderMaterial" id=51]
+shader = ExtResource( 3 )
+
+[sub_resource type="PlaneMesh" id=52]
+material = SubResource( 51 )
+size = Vector2( 10, 10 )
+
+[sub_resource type="SphereMesh" id=63]
+radius = 7.0
+height = 3.5
+
+[sub_resource type="ViewportTexture" id=60]
+viewport_path = NodePath("FountainParticles/DepthMap")
+
+[sub_resource type="ShaderMaterial" id=59]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/direction = Vector3( 0, -1, 0 )
+shader_param/spread = 2.0
+shader_param/flatness = 0.0
+shader_param/initial_linear_velocity = 8.0
+shader_param/initial_angle = 0.0
+shader_param/angular_velocity = 0.0
+shader_param/orbit_velocity = 0.0
+shader_param/linear_accel = 0.0
+shader_param/radial_accel = 0.0
+shader_param/tangent_accel = 0.0
+shader_param/damping = 0.0
+shader_param/scale = 1.0
+shader_param/hue_variation = 0.0
+shader_param/anim_speed = 0.0
+shader_param/anim_offset = 0.0
+shader_param/initial_linear_velocity_random = 0.0
+shader_param/initial_angle_random = 0.0
+shader_param/angular_velocity_random = 0.0
+shader_param/orbit_velocity_random = 0.0
+shader_param/linear_accel_random = 0.0
+shader_param/radial_accel_random = 0.0
+shader_param/tangent_accel_random = 0.0
+shader_param/damping_random = 0.0
+shader_param/scale_random = 0.0
+shader_param/hue_variation_random = 0.0
+shader_param/anim_speed_random = 0.0
+shader_param/anim_offset_random = 0.0
+shader_param/lifetime_randomness = 0.0
+shader_param/color_value = Color( 1, 1, 1, 1 )
+shader_param/trail_divisor = 1
+shader_param/gravity = Vector3( 0, 9.8, 0 )
+shader_param/occlusion_margin = 0.04
+shader_param/depth_cam_size = 2.0
+shader_param/example_splash = 0.2
+shader_param/depth_map = SubResource( 60 )
+
+[sub_resource type="SphereMesh" id=58]
+material = ExtResource( 5 )
+radius = 0.02
+height = 0.04
+radial_segments = 4
+rings = 1
+
+[sub_resource type="ShaderMaterial" id=54]
+shader = ExtResource( 3 )
+
+[sub_resource type="PlaneMesh" id=53]
+material = SubResource( 54 )
+
+[sub_resource type="GDScript" id=57]
+script/source = "tool extends MeshInstance
+
+
+func _process(delta):
+	rotate_z(2.0 * delta)
+	rotate_x(0.5 * delta)
+	var msecs: float = 0.001 * OS.get_ticks_msec()
+	transform.origin.y = -2.0 - sin(msecs)
+"
+
+[sub_resource type="CylinderMesh" id=62]
+top_radius = 4.0
+bottom_radius = 4.0
+height = 1.0
+radial_segments = 8
+rings = 0
+
+[sub_resource type="CubeMesh" id=61]
+size = Vector3( 0.2, 1, 0.2 )
+
+[node name="Demo" type="WorldEnvironment"]
+environment = SubResource( 34 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.642787, 0.766044, 0, -0.766044, -0.642787, 0, 0, 0 )
+shadow_enabled = true
+
+[node name="TennisParticles" type="Particles" parent="."]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -20, 3, 11.9878 )
+amount = 64
+lifetime = 12.0
+visibility_aabb = AABB( -25.0795, -42.2433, -10.4403, 32.4784, 42.5881, 20.8805 )
+local_coords = false
+process_material = SubResource( 41 )
+draw_pass_1 = SubResource( 36 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="TennisParticles"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+remote_path = NodePath("../DepthMap/Camera")
+
+[node name="DepthMap" type="Viewport" parent="TennisParticles"]
+size = Vector2( 256, 256 )
+keep_3d_linear = true
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="TennisParticles/DepthMap"]
+transform = Transform( -4.37114e-08, 4.37114e-08, -1, 1, 1.91069e-15, -4.37114e-08, 0, -1, -4.37114e-08, -20, 3, 11.9878 )
+cull_mask = 2
+projection = 1
+current = true
+size = 16.0
+
+[node name="Texture" type="MeshInstance" parent="TennisParticles/DepthMap/Camera"]
+transform = Transform( 1, -1.27992e-16, 5.59471e-24, 0, -4.37114e-08, -1, 1.27992e-16, 1, -4.37114e-08, 4.76837e-07, -2.84217e-14, -0.1 )
+layers = 2
+mesh = SubResource( 43 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="TennisLauncher" type="MeshInstance" parent="TennisParticles"]
+transform = Transform( 1.91069e-15, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1, 0, -4.37114e-08, 0, 2, 0 )
+mesh = ExtResource( 9 )
+skeleton = NodePath("../..")
+material/0 = null
+material/1 = null
+
+[node name="TennisRamp" type="MeshInstance" parent="TennisParticles"]
+transform = Transform( 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0, 1, 4, -40, 0 )
+layers = 3
+mesh = SubResource( 38 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="RainParticles" type="Particles" parent="."]
+transform = Transform( 0.754515, 0, -0.656283, 0, 1, 0, 0.656283, 0, 0.754515, -14.0758, 16.9446, -15.2035 )
+cast_shadow = 0
+amount = 1024
+lifetime = 2.0
+preprocess = 2.0
+visibility_aabb = AABB( -5, -40, -5, 10, 40, 10 )
+process_material = SubResource( 47 )
+draw_pass_1 = SubResource( 49 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="RainParticles"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+remote_path = NodePath("../DepthMap/Camera")
+
+[node name="DepthMap" type="Viewport" parent="RainParticles"]
+size = Vector2( 256, 256 )
+keep_3d_linear = true
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="RainParticles/DepthMap"]
+transform = Transform( 0.754515, 0.656283, 2.8687e-08, 0, -4.37114e-08, 1, 0.656283, -0.754515, -3.29809e-08, -14.0758, 16.9446, -15.2035 )
+cull_mask = 2
+projection = 1
+current = true
+size = 10.0
+
+[node name="Texture" type="MeshInstance" parent="RainParticles/DepthMap/Camera"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.1 )
+layers = 2
+mesh = SubResource( 52 )
+material/0 = null
+
+[node name="RainCloud" type="MeshInstance" parent="RainParticles"]
+mesh = SubResource( 63 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="RainCottage" type="MeshInstance" parent="RainParticles"]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, -16.6237, 0 )
+layers = 3
+mesh = ExtResource( 6 )
+skeleton = NodePath("../..")
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+
+[node name="FountainParticles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 6.97327, 1.01787, -9.15614 )
+cast_shadow = 0
+amount = 1024
+lifetime = 2.0
+preprocess = 2.0
+process_material = SubResource( 59 )
+draw_pass_1 = SubResource( 58 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="FountainParticles"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+remote_path = NodePath("../DepthMap/Camera")
+
+[node name="DepthMap" type="Viewport" parent="FountainParticles"]
+size = Vector2( 256, 256 )
+keep_3d_linear = true
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="FountainParticles/DepthMap"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 6.97327, 1.01787, -9.15614 )
+cull_mask = 2
+projection = 1
+current = true
+size = 2.0
+
+[node name="Texture" type="MeshInstance" parent="FountainParticles/DepthMap/Camera"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.1 )
+layers = 2
+mesh = SubResource( 53 )
+material/0 = null
+
+[node name="FountainBall" type="MeshInstance" parent="FountainParticles"]
+transform = Transform( -0.295424, -0.853005, 0.430965, 0.931161, -0.155225, 0.331064, -0.215123, 0.49891, 0.838964, 0, -1.25176, 0 )
+layers = 3
+mesh = ExtResource( 4 )
+skeleton = NodePath("../..")
+material/0 = null
+script = SubResource( 57 )
+
+[node name="FountainPlatform" type="MeshInstance" parent="FountainParticles"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34958, 0 )
+mesh = SubResource( 62 )
+skeleton = NodePath("FountainSpout")
+material/0 = null
+
+[node name="FountainSpout" type="MeshInstance" parent="FountainParticles/FountainPlatform"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.921466, 0 )
+mesh = SubResource( 61 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.849199, -0.00733259, -0.528022, 0, 0.999904, -0.0138856, 0.528073, -0.0117916, -0.849117, -13.4751, 1.56119, -14.9136 )
+cull_mask = 1
+script = ExtResource( 8 )
+
+[node name="Controls" type="Label" parent="."]
+anchor_left = 0.05
+anchor_top = 0.95
+anchor_right = 0.05
+anchor_bottom = 0.95
+margin_left = -1.2
+margin_top = -65.0
+margin_right = 214.8
+rect_scale = Vector2( 1.5, 1.5 )
+rect_pivot_offset = Vector2( 0, 65 )
+text = "Movement: WASD (or equivalent)
+Move up/down: E/Q or Space/Shift
+Rotate camera: Mouse
+Grab/release mouse: Left click"
+__meta__ = {
+"_edit_use_anchors_": false
+}
