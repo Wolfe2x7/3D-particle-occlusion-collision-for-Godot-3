@@ -5,7 +5,7 @@ This project shows a few examples of a simple method to add collision-like effec
 
 It is perhaps more accurate to describe the process as 3D particle *occlusion*, hence the repository name. While Godot 4 features physics-enabled particles, this shader method works off of visibility and render layers. Because of this, no collision shapes are necessary, but "collisions" will not occur on transparent surfaces, and particles will act as if they've collided if they pass behind a surface.
 
-I developed my first version of this technique because I simply wanted rain particles not to enter indoor/sheltered spaces. Such a use case is ideal for this method, because it depends primarily upon vertical occlusion.
+I first developed this technique because I simply wanted rain particles not to enter indoor/sheltered spaces. Such a use case is ideal for this method, because it primarily involves vertical occlusion.
 
 # How is it implemented?
 ````
