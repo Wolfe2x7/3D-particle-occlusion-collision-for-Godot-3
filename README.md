@@ -1,7 +1,7 @@
 # 3D Particle Occlusion/Collision for Godot 3
 This project shows a few examples of a simple method to add collision-like effects to 3D particles in Godot 3, using an orthogonal viewport depth buffer. Created with Godot 3.4.2 Stable.
 
-![Screenshot from 2022-01-29 13-30-40](https://user-images.githubusercontent.com/72348938/151674934-372c57b0-48c8-4075-9d88-6b3b44c6430c.png)
+![fountain](https://user-images.githubusercontent.com/72348938/151686920-a4e50e36-b1ac-4e84-a568-034dbf5fcf6c.gif)
 
 It is perhaps more accurate to describe the process as 3D particle *occlusion*, hence the repository name. While Godot 4 features physics-enabled particles, this shader method works off of visibility and render layers. Because of this, no collision shapes are necessary, but "collisions" will not occur on transparent surfaces, and particles will act as if they've collided if they pass behind a surface.
 
