@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://shaders/tennis_bounce.gdshader" type="Shader" id=1]
 [ext_resource path="res://shaders/fountain_splash.gdshader" type="Shader" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://shaders/rain_occlusion.gdshader" type="Shader" id=7]
 [ext_resource path="res://move.gd" type="Script" id=8]
 [ext_resource path="res://meshes/tennis_launcher.mesh" type="ArrayMesh" id=9]
+[ext_resource path="res://shaders/flamethrower.gdshader" type="Shader" id=10]
+[ext_resource path="res://shaders/shell_eject.gdshader" type="Shader" id=11]
+[ext_resource path="res://meshes/gunmetal.material" type="Material" id=12]
 
 [sub_resource type="ProceduralSky" id=33]
 sky_top_color = Color( 0.342, 0.7372, 0.95, 1 )
@@ -22,6 +25,79 @@ background_mode = 2
 background_sky = SubResource( 33 )
 ambient_light_color = Color( 0.28, 0.310333, 0.35, 1 )
 ambient_light_sky_contribution = 0.25
+
+[sub_resource type="Gradient" id=67]
+offsets = PoolRealArray( 0, 0.75, 1 )
+colors = PoolColorArray( 1, 0.501961, 0.12549, 1, 0.501961, 0, 0, 1, 0.12549, 0.12549, 0.12549, 1 )
+
+[sub_resource type="GradientTexture" id=68]
+gradient = SubResource( 67 )
+width = 128
+
+[sub_resource type="ViewportTexture" id=71]
+viewport_path = NodePath("Camera/FlameParticles/DepthMap")
+
+[sub_resource type="ShaderMaterial" id=70]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/direction = Vector3( 0, -1, 0 )
+shader_param/spread = 4.0
+shader_param/flatness = 0.0
+shader_param/initial_linear_velocity = 10.0
+shader_param/initial_angle = 0.0
+shader_param/angular_velocity = 720.0
+shader_param/orbit_velocity = 0.0
+shader_param/linear_accel = -7.0
+shader_param/radial_accel = 0.0
+shader_param/tangent_accel = 0.0
+shader_param/damping = 0.0
+shader_param/scale = 1.0
+shader_param/hue_variation = 0.1
+shader_param/anim_speed = 0.0
+shader_param/anim_offset = 0.0
+shader_param/initial_linear_velocity_random = 0.0
+shader_param/initial_angle_random = 0.0
+shader_param/angular_velocity_random = 1.0
+shader_param/orbit_velocity_random = 0.0
+shader_param/linear_accel_random = 0.0
+shader_param/radial_accel_random = 0.0
+shader_param/tangent_accel_random = 0.0
+shader_param/damping_random = 0.0
+shader_param/scale_random = 0.0
+shader_param/hue_variation_random = 0.5
+shader_param/anim_speed_random = 0.0
+shader_param/anim_offset_random = 0.0
+shader_param/lifetime_randomness = 0.4
+shader_param/color_value = Color( 1, 1, 1, 1 )
+shader_param/trail_divisor = 1
+shader_param/gravity = Vector3( 0, 1, 0 )
+shader_param/occlusion_margin = 0.04
+shader_param/depth_cam_size = 10.0
+shader_param/flame_splash = 5.0
+shader_param/color_ramp = SubResource( 68 )
+shader_param/depth_map = SubResource( 71 )
+
+[sub_resource type="SpatialMaterial" id=65]
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id=66]
+material = SubResource( 65 )
+size = Vector2( 0.1, 0.1 )
+
+[sub_resource type="ShaderMaterial" id=54]
+shader = ExtResource( 3 )
+
+[sub_resource type="PlaneMesh" id=53]
+material = SubResource( 54 )
+size = Vector2( 10, 10 )
+
+[sub_resource type="CubeMesh" id=61]
+size = Vector3( 0.2, 1, 0.2 )
 
 [sub_resource type="ViewportTexture" id=44]
 viewport_path = NodePath("TennisParticles/DepthMap")
@@ -199,12 +275,6 @@ height = 0.04
 radial_segments = 4
 rings = 1
 
-[sub_resource type="ShaderMaterial" id=54]
-shader = ExtResource( 3 )
-
-[sub_resource type="PlaneMesh" id=53]
-material = SubResource( 54 )
-
 [sub_resource type="GDScript" id=57]
 script/source = "tool extends MeshInstance
 
@@ -223,8 +293,182 @@ height = 1.0
 radial_segments = 8
 rings = 0
 
-[sub_resource type="CubeMesh" id=61]
-size = Vector3( 0.2, 1, 0.2 )
+[sub_resource type="ViewportTexture" id=83]
+viewport_path = NodePath("ShellParticles/DepthMap")
+
+[sub_resource type="ShaderMaterial" id=82]
+resource_local_to_scene = true
+shader = ExtResource( 11 )
+shader_param/direction = Vector3( -1, 1, 0 )
+shader_param/spread = 45.0
+shader_param/flatness = 0.0
+shader_param/initial_linear_velocity = 2.0
+shader_param/initial_angle = 0.0
+shader_param/angular_velocity = 0.0
+shader_param/orbit_velocity = 0.0
+shader_param/linear_accel = 0.0
+shader_param/radial_accel = 0.0
+shader_param/tangent_accel = 0.0
+shader_param/damping = 0.0
+shader_param/scale = 1.0
+shader_param/hue_variation = 0.0
+shader_param/anim_speed = 0.0
+shader_param/anim_offset = 0.0
+shader_param/initial_linear_velocity_random = 0.0
+shader_param/initial_angle_random = 0.0
+shader_param/angular_velocity_random = 0.0
+shader_param/orbit_velocity_random = 0.0
+shader_param/linear_accel_random = 0.0
+shader_param/radial_accel_random = 0.0
+shader_param/tangent_accel_random = 0.0
+shader_param/damping_random = 0.0
+shader_param/scale_random = 0.0
+shader_param/hue_variation_random = 0.0
+shader_param/anim_speed_random = 0.0
+shader_param/anim_offset_random = 0.0
+shader_param/lifetime_randomness = 0.0
+shader_param/color_value = Color( 1, 1, 1, 1 )
+shader_param/trail_divisor = 1
+shader_param/gravity = Vector3( 0, -9.8, 0 )
+shader_param/occlusion_margin = 0.04
+shader_param/depth_cam_size = 10.0
+shader_param/depth_map = SubResource( 83 )
+
+[sub_resource type="SpatialMaterial" id=77]
+albedo_color = Color( 1, 0.784314, 0, 1 )
+metallic = 1.0
+roughness = 0.0
+
+[sub_resource type="CapsuleMesh" id=78]
+material = SubResource( 77 )
+radius = 0.01
+mid_height = 0.05
+radial_segments = 8
+rings = 2
+
+[sub_resource type="Animation" id=85]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun/Barrel:transform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57187, 0.133207 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gun:transform")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Transform( -1, 3.82137e-15, 8.74228e-08, 8.74228e-08, 4.37114e-08, 1, 0, 1, -4.37114e-08, 0, -0.133207, 0.0223994 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gun/Barrel/Flash:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=84]
+resource_name = "gunfire"
+length = 0.1
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun/Barrel:transform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57187, 0.133207 ), Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503757, 0.133207 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gun:transform")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Transform( -1, 3.82137e-15, 8.74228e-08, 8.74228e-08, 4.37114e-08, 1, 0, 1, -4.37114e-08, 0, -0.133207, 0.0223994 ), Transform( -1, 3.82137e-15, 8.74228e-08, 8.74228e-08, 4.37114e-08, 1, 0, 1, -4.37114e-08, 0, -0.133207, 0.0178165 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gun/Barrel/Flash:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.03 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="GDScript" id=86]
+script/source = "extends AnimationPlayer
+
+
+func _ready():
+	play('gunfire')
+"
+
+[sub_resource type="CubeMesh" id=74]
+material = ExtResource( 12 )
+size = Vector3( 0.25, 1, 0.25 )
+
+[sub_resource type="CylinderMesh" id=73]
+material = ExtResource( 12 )
+top_radius = 0.1
+bottom_radius = 0.1
+radial_segments = 8
+
+[sub_resource type="SpatialMaterial" id=80]
+flags_unshaded = true
+params_blend_mode = 1
+albedo_color = Color( 0.933333, 0.729412, 0.286275, 1 )
+
+[sub_resource type="CylinderMesh" id=79]
+material = SubResource( 80 )
+top_radius = 0.2
+bottom_radius = 0.0
+height = 0.2
+
+[sub_resource type="CylinderMesh" id=75]
+material = ExtResource( 12 )
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
+radial_segments = 6
+
+[sub_resource type="SpatialMaterial" id=81]
+albedo_color = Color( 0.278431, 0.32549, 0.145098, 1 )
+
+[sub_resource type="PrismMesh" id=72]
+material = SubResource( 81 )
+size = Vector3( 10, 2, 10 )
 
 [node name="Demo" type="WorldEnvironment"]
 environment = SubResource( 34 )
@@ -232,6 +476,50 @@ environment = SubResource( 34 )
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.642787, 0.766044, 0, -0.766044, -0.642787, 0, 0, 0 )
 shadow_enabled = true
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.876729, -0.0104926, -0.48087, 0, 0.999762, -0.0218148, 0.480985, -0.0191257, -0.87652, -14.553, 1.69497, -15.7277 )
+cull_mask = 1
+script = ExtResource( 8 )
+
+[node name="FlameParticles" type="Particles" parent="Camera"]
+transform = Transform( 1, 0, -2.32831e-10, 0, 0.0222336, -0.999753, 0, 0.999753, 0.0222336, 0.300001, -0.300001, -0.850304 )
+cast_shadow = 0
+emitting = false
+amount = 1024
+lifetime = 2.0
+local_coords = false
+process_material = SubResource( 70 )
+draw_pass_1 = SubResource( 66 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="Camera/FlameParticles"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+remote_path = NodePath("../DepthMap/Camera")
+
+[node name="DepthMap" type="Viewport" parent="Camera/FlameParticles"]
+size = Vector2( 256, 256 )
+keep_3d_linear = true
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="Camera/FlameParticles/DepthMap"]
+transform = Transform( -0.876729, 0.000201487, -0.480985, 0, 1, 0.000418904, 0.480985, 0.000367264, -0.876729, -14.404, 1.41359, -14.8324 )
+cull_mask = 2
+projection = 1
+current = true
+size = 10.0
+
+[node name="Texture" type="MeshInstance" parent="Camera/FlameParticles/DepthMap/Camera"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.1 )
+layers = 2
+mesh = SubResource( 53 )
+material/0 = null
+
+[node name="Flamethrower" type="MeshInstance" parent="Camera/FlameParticles"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.76837e-07, 0.450306, 0 )
+mesh = SubResource( 61 )
+skeleton = NodePath("../../..")
+material/0 = null
 
 [node name="TennisParticles" type="Particles" parent="."]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -20, 3, 11.9878 )
@@ -268,6 +556,7 @@ material/0 = null
 
 [node name="TennisLauncher" type="MeshInstance" parent="TennisParticles"]
 transform = Transform( 1.91069e-15, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1, 0, -4.37114e-08, 0, 2, 0 )
+layers = 3
 mesh = ExtResource( 9 )
 skeleton = NodePath("../..")
 material/0 = null
@@ -366,7 +655,7 @@ mesh = SubResource( 53 )
 material/0 = null
 
 [node name="FountainBall" type="MeshInstance" parent="FountainParticles"]
-transform = Transform( -0.295424, -0.853005, 0.430965, 0.931161, -0.155225, 0.331064, -0.215123, 0.49891, 0.838964, 0, -1.25176, 0 )
+transform = Transform( -0.361283, 0.916848, -0.119433, -0.910236, -0.37544, -0.129847, -0.162561, 0.0577359, 0.96892, 0, -2.46295, 0 )
 layers = 3
 mesh = ExtResource( 4 )
 skeleton = NodePath("../..")
@@ -375,20 +664,97 @@ script = SubResource( 57 )
 
 [node name="FountainPlatform" type="MeshInstance" parent="FountainParticles"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34958, 0 )
+layers = 3
 mesh = SubResource( 62 )
 skeleton = NodePath("FountainSpout")
 material/0 = null
 
 [node name="FountainSpout" type="MeshInstance" parent="FountainParticles/FountainPlatform"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.921466, 0 )
+layers = 3
 mesh = SubResource( 61 )
 skeleton = NodePath("../../..")
 material/0 = null
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -0.849199, -0.00733259, -0.528022, 0, 0.999904, -0.0138856, 0.528073, -0.0117916, -0.849117, -13.4751, 1.56119, -14.9136 )
-cull_mask = 1
-script = ExtResource( 8 )
+[node name="ShellParticles" type="Particles" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, 8.74228e-08, 1, 8.74228e-08, 7.64274e-15, 8.74228e-08, -1, -28.7854, 1.57505, -5.99977 )
+cast_shadow = 0
+amount = 16
+lifetime = 2.0
+local_coords = false
+process_material = SubResource( 82 )
+draw_pass_1 = SubResource( 78 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="ShellParticles"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+remote_path = NodePath("../DepthMap/Camera")
+
+[node name="DepthMap" type="Viewport" parent="ShellParticles"]
+size = Vector2( 256, 256 )
+keep_3d_linear = true
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="ShellParticles/DepthMap"]
+transform = Transform( -1, -3.82137e-15, 8.74228e-08, 8.74228e-08, -1.31134e-07, 1, 7.64274e-15, 1, 1.31134e-07, -28.7854, 1.57505, -5.99977 )
+cull_mask = 2
+projection = 1
+current = true
+size = 10.0
+
+[node name="Texture" type="MeshInstance" parent="ShellParticles/DepthMap/Camera"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.1 )
+layers = 2
+mesh = SubResource( 53 )
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ShellParticles"]
+anims/RESET = SubResource( 85 )
+anims/gunfire = SubResource( 84 )
+script = SubResource( 86 )
+
+[node name="Gun" type="MeshInstance" parent="ShellParticles"]
+transform = Transform( -1, 3.82137e-15, 8.74228e-08, 8.74228e-08, 4.37114e-08, 1, 0, 1, -4.37114e-08, 0, -0.133207, 0.0223994 )
+layers = 3
+mesh = SubResource( 74 )
+material/0 = null
+
+[node name="Barrel" type="MeshInstance" parent="ShellParticles/Gun"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57187, 0.133207 )
+layers = 3
+mesh = SubResource( 73 )
+material/0 = null
+
+[node name="Flash" type="MeshInstance" parent="ShellParticles/Gun/Barrel"]
+transform = Transform( 1, 4.23516e-22, 1.80811e-22, 0, 1, 1.42109e-14, 0, 0, 1, 0, 1.02893, 0.00368905 )
+mesh = SubResource( 79 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="Leg" type="MeshInstance" parent="ShellParticles/Gun"]
+transform = Transform( -0.719846, 0.604023, 0.34202, 0.262003, -0.219846, 0.939693, 0.642787, 0.766045, 4.13932e-08, -0.372131, 0.148037, -0.432343 )
+layers = 3
+mesh = SubResource( 75 )
+material/0 = null
+
+[node name="Leg2" type="MeshInstance" parent="ShellParticles/Gun"]
+transform = Transform( -0.719846, 0.604023, 0.34202, -0.262003, 0.219846, -0.939693, -0.642787, -0.766045, 2.55765e-08, 0.372002, 0.147683, -0.432793 )
+layers = 3
+mesh = SubResource( 75 )
+material/0 = null
+
+[node name="Leg3" type="MeshInstance" parent="ShellParticles/Gun"]
+transform = Transform( 3.34849e-08, 2.80971e-08, -1, 0.642787, -0.766045, 0, -0.766045, -0.642787, -4.37114e-08, -0.0455742, -0.523284, -0.432793 )
+layers = 3
+mesh = SubResource( 75 )
+material/0 = null
+
+[node name="GunPlatform" type="MeshInstance" parent="ShellParticles"]
+transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, -1.93161, 0.545044 )
+layers = 3
+mesh = SubResource( 72 )
+skeleton = NodePath("")
+material/0 = null
 
 [node name="Controls" type="Label" parent="."]
 anchor_left = 0.05
@@ -396,14 +762,16 @@ anchor_top = 0.95
 anchor_right = 0.05
 anchor_bottom = 0.95
 margin_left = -1.2
-margin_top = -65.0
+margin_top = -121.0
 margin_right = 214.8
-rect_scale = Vector2( 1.5, 1.5 )
-rect_pivot_offset = Vector2( 0, 65 )
+margin_bottom = -38.9999
+rect_scale = Vector2( 1.25, 1.25 )
+rect_pivot_offset = Vector2( 0, 82 )
 text = "Movement: WASD (or equivalent)
 Move up/down: E/Q or Space/Shift
 Rotate camera: Mouse
-Grab/release mouse: Left click"
+Shoot flamethrower: Left click
+Grab/release mouse: Right click"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -26,16 +26,17 @@ func _process(delta: float):
 	var input = global_transform.basis * Vector3(move_input.x, move_y, move_input.y)
 	movement = movement.linear_interpolate(0.1 * input, 10 * delta)
 	global_transform.origin += movement
+	
+	# Flamethrower
+	$FlameParticles.emitting = Input.is_action_pressed('ui_end')
 
 
 func _unhandled_input(event: InputEvent):
 	# Mouse control
 	if event is InputEventMouseMotion:
 		mouse = event.relative
-	# Mouse control toggle
-	if event is InputEventMouseButton and event.is_pressed():
-		if event.get_button_index() == BUTTON_LEFT:
-			Input.set_mouse_mode(-Input.get_mouse_mode() + 2)
+	if Input.is_action_just_pressed('ui_cancel'):
+		Input.set_mouse_mode(-Input.get_mouse_mode() + 2)
 	
 	move_input = Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down')
 	move_y = Input.get_axis('ui_select', 'ui_accept')
