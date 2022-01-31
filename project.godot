@@ -15,6 +15,11 @@ config/description="Examples of a method for 3D particle \"collisions\" with vie
 run/main_scene="res://demo.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1280
+window/size/height=720
+
 [input]
 
 ui_accept={

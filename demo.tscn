@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://shaders/tennis_bounce.gdshader" type="Shader" id=1]
 [ext_resource path="res://shaders/fountain_splash.gdshader" type="Shader" id=2]
@@ -275,6 +275,12 @@ height = 0.04
 radial_segments = 4
 rings = 1
 
+[sub_resource type="ShaderMaterial" id=87]
+shader = ExtResource( 3 )
+
+[sub_resource type="PlaneMesh" id=88]
+material = SubResource( 87 )
+
 [sub_resource type="GDScript" id=57]
 script/source = "tool extends MeshInstance
 
@@ -503,7 +509,7 @@ render_target_v_flip = true
 render_target_update_mode = 3
 
 [node name="Camera" type="Camera" parent="Camera/FlameParticles/DepthMap"]
-transform = Transform( -0.876729, 0.000201487, -0.480985, 0, 1, 0.000418904, 0.480985, 0.000367264, -0.876729, -14.404, 1.41359, -14.8324 )
+transform = Transform( -0.876729, 0.000201487, -0.480985, 0, 1, 0.000418906, 0.480985, 0.000367264, -0.876729, -14.404, 1.41359, -14.8324 )
 cull_mask = 2
 projection = 1
 current = true
@@ -651,11 +657,11 @@ size = 2.0
 [node name="Texture" type="MeshInstance" parent="FountainParticles/DepthMap/Camera"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.1 )
 layers = 2
-mesh = SubResource( 53 )
+mesh = SubResource( 88 )
 material/0 = null
 
 [node name="FountainBall" type="MeshInstance" parent="FountainParticles"]
-transform = Transform( -0.361283, 0.916848, -0.119433, -0.910236, -0.37544, -0.129847, -0.162561, 0.0577359, 0.96892, 0, -2.46295, 0 )
+transform = Transform( 0.572618, -0.514408, 0.623472, 0.671107, 0.729785, -0.0146111, -0.45167, 0.429534, 0.75966, 0, -2.05685, 0 )
 layers = 3
 mesh = ExtResource( 4 )
 skeleton = NodePath("../..")
@@ -680,7 +686,7 @@ material/0 = null
 transform = Transform( -1, 8.74228e-08, 0, 8.74228e-08, 1, 8.74228e-08, 7.64274e-15, 8.74228e-08, -1, -28.7854, 1.57505, -5.99977 )
 cast_shadow = 0
 amount = 16
-lifetime = 2.0
+lifetime = 3.0
 local_coords = false
 process_material = SubResource( 82 )
 draw_pass_1 = SubResource( 78 )
@@ -750,7 +756,14 @@ mesh = SubResource( 75 )
 material/0 = null
 
 [node name="GunPlatform" type="MeshInstance" parent="ShellParticles"]
-transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, -1.93161, 0.545044 )
+transform = Transform( -0.33, -1.50996e-07, 0, 4.98286e-08, -1, 0, 0, 0, 0.33, 0, -1.93161, 0.545044 )
+layers = 3
+mesh = SubResource( 72 )
+skeleton = NodePath("")
+material/0 = null
+
+[node name="GunPlatform2" type="MeshInstance" parent="ShellParticles"]
+transform = Transform( 1, 6.6815e-22, 0, 6.6815e-22, 1, 0, 0, 0, 1, 0, -2.03995, 0.545045 )
 layers = 3
 mesh = SubResource( 72 )
 skeleton = NodePath("")
